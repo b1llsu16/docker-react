@@ -1,0 +1,24 @@
+version: '3'
+services:
+  web:
+    # Set the context and the new Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    # Set the ports to forward to the container.
+    ports:
+      - "3000:3000"
+    # Set the volumes
+    volumes:
+      - /app/node_modules
+      - .:/app
+  # We can copy the above but we do not need any ports to forward
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    # We will override the starting command
+    command: ["npm", "run", "test"]
